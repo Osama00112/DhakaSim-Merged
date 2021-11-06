@@ -1,0 +1,19 @@
+
+Constant
+count 92 => time 16136
+avg time per passenger => 175.3913043478261
+
+Constant + Train
+count 171 => time 13449
+avg time per passenger => 78.64912280701755
+
+Random
+count 4 => time 1509
+avg time per passenger => 377.25
+
+Random + Train
+count 397 => time 3188
+avg time per passenger => 8.03022670025189
+
+count 344 => time 1679
+avg time per passenger => 4.880813953488372

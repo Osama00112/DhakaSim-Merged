@@ -1,0 +1,11 @@
+.idea/
+DhakaSim.iml
+out/
+log.txt
+Log.txt
+build/
+out\.txt
+debug/
+docs/
+statistics/
+trace\.txt
