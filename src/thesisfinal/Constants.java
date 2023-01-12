@@ -36,7 +36,7 @@ public interface Constants<standingPedestrianDistributions> {
 
 
 
-	Color STANDING_PEDESTRIAN_COLOR = Color.orange;
+	Color STANDING_PEDESTRIAN_COLOR = Color.yellow;
 	double STANDING_PEDESTRIAN_LENGTH = ROAD_CROSSING_PEDESTRIAN_SIZE; //Unit: meter
 	double STANDING_PEDESTRIAN_WIDTH = ROAD_CROSSING_PEDESTRIAN_SIZE; //Unit: meter
 	int STANDING_PEDESTRIAN_TIME_LIMIT_FACTOR = 50;
@@ -53,7 +53,7 @@ public interface Constants<standingPedestrianDistributions> {
 
 
 
-	Color PARKED_CAR_COLOR = Color.white;
+	Color PARKED_CAR_COLOR = Color.yellow;
 	double PARKED_CAR_LENGTH = 4.5; //Unit: meter
 	double PARKED_CAR_WIDTH = 1.7; //Unit: meter
 	int PARKED_CAR_TIME_LIMIT_FACTOR = STANDING_PEDESTRIAN_TIME_LIMIT_FACTOR * 10;
@@ -71,7 +71,7 @@ public interface Constants<standingPedestrianDistributions> {
 
 
 
-	Color PARKED_RICKSHAW_COLOR = Color.pink;
+	Color PARKED_RICKSHAW_COLOR = Color.yellow;
 	double PARKED_RICKSHAW_LENGTH = 3; //Unit: meter
 	double PARKED_RICKSHAW_WIDTH = 1; //Unit: meter
 	int PARKED_RICKSHAW_TIME_LIMIT_FACTOR = PARKED_CAR_TIME_LIMIT_FACTOR/5;
@@ -88,7 +88,7 @@ public interface Constants<standingPedestrianDistributions> {
 
 
 
-	Color PARKED_CNG_COLOR = Color.green;
+	Color PARKED_CNG_COLOR = Color.yellow;
 	double PARKED_CNG_LENGTH = 2.6; //Unit: meter
 	double PARKED_CNG_WIDTH = 1.3; //Unit: meter
 	int PARKED_CNG_TIME_LIMIT_FACTOR = PARKED_CAR_TIME_LIMIT_FACTOR/5;

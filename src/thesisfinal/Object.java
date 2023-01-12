@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import static thesisfinal.Constants.*;
 import static thesisfinal.Parameters.*;
 
-public class Object {
+public class Object extends Vehicle{
 
 	/**
 	 * Current object types are:
@@ -43,7 +43,10 @@ public class Object {
 	boolean toRemove = false;
 	public int index;
 
-	public Object (int objectType, Segment segment, double initPos, double speed, boolean reverseDirection) {
+	public Object (int objectType, Link link, Segment segment, int segmentId, double initPos, double speed, boolean reverseDirection) {
+
+
+		super(Controller.vehicleId++,simulationStep,0,0,Color.yellow,link,segmentId);
 		//Initialize parameters
 		this.objectType = objectType;
 		this.segment = segment;
@@ -54,15 +57,25 @@ public class Object {
 		Random random = new Random();
 		randomDouble = random.nextDouble();
 
+
+
 		//Initialize other fields
 		if (objectType==0) {
 			objectLength = ROAD_CROSSING_PEDESTRIAN_SIZE;
+
+			super.setLength(ROAD_CROSSING_PEDESTRIAN_SIZE);
+			super.setWidth(ROAD_CROSSING_PEDESTRIAN_SIZE);
+
 			objectWidth = ROAD_CROSSING_PEDESTRIAN_SIZE;
 			distanceFromFootpath = -footpathStripWidth;
 		}
 		else if (objectType==1) {
 			objectLength = STANDING_PEDESTRIAN_LENGTH;
 			objectWidth = STANDING_PEDESTRIAN_WIDTH;
+
+			super.setLength(objectLength);
+			super.setWidth(objectWidth);
+
 			if (OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN) {
 				distanceFromFootpath = Utilities.getRandomFromMultipleGaussianDistributionOfObjectsBlockage(objectType) - objectWidth;
 			}
@@ -73,6 +86,10 @@ public class Object {
 		else if (objectType==2) {
 			objectLength = PARKED_CAR_LENGTH;
 			objectWidth = PARKED_CAR_WIDTH;
+
+			super.setLength(objectLength);
+			super.setWidth(objectWidth);
+
 			if (OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN) {
 				distanceFromFootpath = Utilities.getRandomFromMultipleGaussianDistributionOfObjectsBlockage(objectType) - objectWidth;
 			}
@@ -83,6 +100,10 @@ public class Object {
 		else if (objectType==3) {
 			objectLength = PARKED_RICKSHAW_LENGTH;
 			objectWidth = PARKED_RICKSHAW_WIDTH;
+
+			super.setLength(objectLength);
+			super.setWidth(objectWidth);
+
 			if (OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN) {
 				distanceFromFootpath = Utilities.getRandomFromMultipleGaussianDistributionOfObjectsBlockage(objectType) - objectWidth;
 			}
@@ -93,6 +114,10 @@ public class Object {
 		else if (objectType==4) {
 			objectLength = PARKED_CNG_LENGTH;
 			objectWidth = PARKED_CNG_WIDTH;
+
+			super.setLength(objectLength);
+			super.setWidth(objectWidth);
+
 			if (OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN) {
 				distanceFromFootpath = Utilities.getRandomFromMultipleGaussianDistributionOfObjectsBlockage(objectType) - objectWidth;
 			}
@@ -100,6 +125,15 @@ public class Object {
 				distanceFromFootpath = Utilities.getRandomFromUniformDistributionOfObjectsBlockage(objectType) - objectWidth;
 			}
 		}
+
+//		Segment seg=segment;double segmentLength=seg.getLength();double distanceInSegment=initPos;double length=objectLength;
+//		double xp = (distanceInSegment * segment.getEndX() + (segmentLength - distanceInSegment) * segment.getStartX()) / segmentLength * pixelPerMeter;
+//		double yp = (distanceInSegment * segment.getEndY() + (segmentLength - distanceInSegment) * segment.getStartY()) / segmentLength * pixelPerMeter;
+//		double xq = ((distanceInSegment + length) * segment.getEndX() + (segmentLength - (distanceInSegment + length)) * segment.getStartX()) / segmentLength * pixelPerMeter;
+//		double yq = ((distanceInSegment + length) * segment.getEndY() + (segmentLength - (distanceInSegment + length)) * segment.getStartY()) / segmentLength * pixelPerMeter;
+
+
+
 		distanceAlongWidth = distanceFromFootpath + footpathStripWidth;
 
 		if (reverseDirection) {
@@ -109,6 +143,12 @@ public class Object {
 		}
 
 		occupyStrips();
+	}
+
+	@Override
+	public double getDistanceInSegment() {
+		return initPos;
+		//return super.getDistanceInSegment();
 	}
 
 	protected double getDistanceAlongWidth() {
@@ -345,7 +385,7 @@ public class Object {
 		System.out.println(index + " " + initPos + " " + distanceAlongWidth + " " + speed);
 	}
 
-	boolean isToRemove() {
+	public boolean isToRemove() {
 		return toRemove;
 	}
 
@@ -357,7 +397,7 @@ public class Object {
 		return reverseDirection;
 	}
 
-	void setToRemove(boolean b) {
+	public void setToRemove(boolean b) {
 		toRemove = b;
 	}
 }

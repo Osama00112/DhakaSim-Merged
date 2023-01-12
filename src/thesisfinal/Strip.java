@@ -85,7 +85,19 @@ public class Strip {
 				}
 			}
 		}
-		return ret;
+
+		// new code
+		for(Object leader : objectList)
+		{
+			if (leader.getDistanceInSegment() > distance + 0.1 && leader.objectType!=0) {
+				double compare = leader.getDistanceInSegment() - distance;
+				if (compare < min) {
+					min = compare;
+					ret = leader;
+				}
+			}
+		}
+ 	    return ret;
 	}
 
 	Vehicle probableFollower(Vehicle leader) {

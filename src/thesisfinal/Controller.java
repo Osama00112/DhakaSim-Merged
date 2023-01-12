@@ -23,7 +23,8 @@ public class Controller {
 	protected static ArrayList<Object> objects = new ArrayList<>();
 	protected static ArrayList<Vehicle> vehicleList = new ArrayList<>();
 
-	private static int vehicleId = 0;
+	/*new code roadside obj */
+	public static int vehicleId = 0;
 	private static int numberOfVehicles = 0;
 	private static int numberOfObjects = 0;
 	private static int numberOfRoadCrossingPedestrians = 0;
@@ -31,6 +32,8 @@ public class Controller {
 	private static int numberOfParkedCars = 0;
 	private static int numberOfParkedRickshaws = 0;
 	private static int numberOfParkedCNGS = 0;
+
+
 
 	public Controller () {
 		try {
@@ -644,7 +647,7 @@ public class Controller {
 					continue; //There's no gap for adding parked car
 				}
 			}
-			Object object = new Object(randomObjectType, randomSegment, randomInitPos, randomObjectSpeed, reverseDirection);
+			Object object = new Object(randomObjectType, link, randomSegment, randomSegmentID, randomInitPos, randomObjectSpeed, reverseDirection);
 			objects.add(object);
 			numberOfObjects++;
 		}

@@ -124,6 +124,51 @@ public class Vehicle {
 		getSegment().increaseEnteringVehicleCount();
 	}
 
+	/* new code roadside obj*/
+	public Vehicle(int vehicleId, int startTime, int type, double speed, Color color,Link link, int segmentIndex) {
+		this.vehicleId = vehicleId;
+		this.startTime = startTime;
+		this.segmentEnterTime = startTime;
+		this.distanceTraveled = 0;
+		this.type = type;
+		this.segmentIndex=segmentIndex;
+		this.link=link;
+
+		this.maximumSpeedCapable = 0;
+		this.currentMaxSpeed = 0;
+		this.numberOfStrips = numberOfStrips(type);
+
+		this.speed = speed;
+		this.maxAcceleration = 0;
+		this.acceleration = 0;
+		this.maxBraking = 0;
+		this.color = color;
+		segmentStartPoint = new Point2D(0, 0);
+		segmentEndPoint = new Point2D(0, 0);
+
+
+		this.isInIntersection = false;
+
+//		this.reverseLink = reverseLink;
+//		this.reverseSegment = reverseSegment;
+//
+//		this.passedSensor = false;
+//		this.toRemove = false;
+//
+//		this.noForceMove = true;
+//		this.stuckInIntersection = 0;
+//
+//		this.link = link;
+//		this.segmentIndex = segmentIndex;
+//		this.stripIndex = stripIndex;
+//		this.distanceInSegment = 0.1;
+//
+//		this.corners = new Point2D[4];
+		occupyStrips();
+//		increaseVehicleCountOnSegment();
+//		getSegment().increaseEnteringVehicleCount();
+	}
+
 	private void occupyStrips() {
 		Segment segment = link.getSegment(segmentIndex);
 		for (int i = 0; i < numberOfStrips; i++) {
