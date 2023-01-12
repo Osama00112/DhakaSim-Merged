@@ -1,0 +1,17 @@
+.idea/
+DhakaSim.iml
+debug*\.txt
+demand_cp\.txt
+out/
+log.txt
+Log.txt
+build/
+nbproject/
+out\.txt
+images/
+
+accident\.txt
+
+speed\.txt
+
+vehicle\.txt
