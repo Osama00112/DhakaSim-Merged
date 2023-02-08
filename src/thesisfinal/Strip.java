@@ -87,8 +87,9 @@ public class Strip {
 		}
 
 		// new code
-		for(Object leader : objectList)
+		for(Object leader : objectList)  // checks if any roadside object is a probable leader
 		{
+			//System.out.println("simstep "+simulationStep+"speed "+leader.getSpeed());
 			if (leader.getDistanceInSegment() > distance + 0.1 && leader.objectType!=0) {
 				double compare = leader.getDistanceInSegment() - distance;
 				if (compare < min) {
@@ -178,6 +179,7 @@ public class Strip {
 			}
 		}
 		objectList.removeAll(objectsToRemove);
+
 		return Math.max(forwardGap, 0);
 	}
 
@@ -201,7 +203,7 @@ public class Strip {
 			if (lowerLimit < p.getInitPos() && p.getInitPos() < upperLimit) {
 				if (!accident) {
 					return false;
-				}  //System.out.println(lowerLimit + " " + obj.getInitPos() + " " + upperLimit);
+				}
 
 				p.getSegment().setAccidentCount(p.getSegment().getAccidentCount() + 1); //updateAccidentcount();
 				//System.out.println("Type 2: পথচারী নিজেই ধাক্কা লাগাইসে");
@@ -249,6 +251,7 @@ public class Strip {
 	 *is enough space for a given vehicle forward movement.
 	 */
 	boolean hasGapForStripChange(Vehicle v) {
+
 		double thresholdDistance = v.getThresholdDistance();
 		double lowerLimit1 = v.getDistanceInSegment() - thresholdDistance;
 		double upperLimit1 = v.getDistanceInSegment() + v.getLength() + thresholdDistance;
@@ -264,6 +267,7 @@ public class Strip {
 					|| upperLimit1 >= lowerLimit2 && upperLimit1 <= upperLimit2)
 					|| (lowerLimit2 >= lowerLimit1 && lowerLimit2 <= upperLimit1
 					|| upperLimit2 >= lowerLimit1 && upperLimit2 <= upperLimit1)) {
+				//System.out.println("id "+v.getVehicleId()+" 1 "+vehicle.getVehicleId());
 				return false;
 			}
 		}
@@ -285,6 +289,7 @@ public class Strip {
 			double objectLength = object.getObjectLength();
 			if (!(objectPos > upperLimit1) && !(objectPos+objectLength < lowerLimit1)) {
 				if (!accident) {
+					//System.out.println("id "+v.getVehicleId()+" 2");
 					return false;
 				}
 
@@ -368,6 +373,7 @@ public class Strip {
 
 			if (flag) {
 				// lane changing not feasible
+				//System.out.println("id "+v.getVehicleId()+" 3");
 				return false;
 			}
 			/*
@@ -378,9 +384,12 @@ public class Strip {
 			 * check for gap acceptance (probabilistic method)
 			 */
 			double r = rand.nextDouble();
+			//System.out.println("id "+v.getVehicleId()+" 4");
+			//if(r>=probabilty) System.out.println(4);
 			return r < probabilty;
 		}
 
+		//System.out.println("id "+v.getVehicleId()+" 5");
 		return true;
 	}
 

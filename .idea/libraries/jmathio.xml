@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jmathio">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jmathio.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -125,7 +125,7 @@ public class Vehicle {
 	}
 
 	/* new code roadside obj*/
-	public Vehicle(int vehicleId, int startTime, int type, double speed, Color color,Link link, int segmentIndex) {
+	public Vehicle(int vehicleId, int startTime, int type, double speed, Color color,Link link, int segmentIndex,double initPos) {
 		this.vehicleId = vehicleId;
 		this.startTime = startTime;
 		this.segmentEnterTime = startTime;
@@ -161,12 +161,17 @@ public class Vehicle {
 //		this.link = link;
 //		this.segmentIndex = segmentIndex;
 //		this.stripIndex = stripIndex;
-//		this.distanceInSegment = 0.1;
+		this.distanceInSegment = initPos;
 //
 //		this.corners = new Point2D[4];
 		occupyStrips();
 //		increaseVehicleCountOnSegment();
 //		getSegment().increaseEnteringVehicleCount();
+	}
+
+	public int getVehicleId()
+	{
+		return vehicleId;
 	}
 
 	private void occupyStrips() {
@@ -213,6 +218,7 @@ public class Vehicle {
 		for (int i = stripIndex; i + numberOfStrips <= limit; i++) {
 			changeStrip(i, i + numberOfStrips, 1);
 			if (segment.getStrip(i + numberOfStrips).hasGapForStripChange(this)) {
+				//System.out.println(simulationStep+" id "+vehicleId+"  "+(i+numberOfStrips));
 				if (isMoveForwardPossible() && !isSlowerVehicleInProximity()) {
 					moveForwardInSegment();
 					return true;
@@ -296,6 +302,7 @@ public class Vehicle {
 	}
 
 	private double getNewSpeedGippsModel() {
+
 		double v_a = getSpeedForAcceleration();
 		double v_b;
 
@@ -324,7 +331,9 @@ public class Vehicle {
 	}
 
 	void moveVehicleInSegment() {
+
 		if (!moveForwardInSegment() || isSlowerVehicleInProximity()) {
+
 			if (isReverseSegment()) {
 				if (!moveToLowerIndexLane()) {
 					moveToHigherIndexLane();
@@ -344,6 +353,7 @@ public class Vehicle {
 		}
 		checkCrashCondition(speed);
 		if (car_following_model == CAR_FOLLOWING_MODEL.NAIVE_MODEL || car_following_model == CAR_FOLLOWING_MODEL.HYBRID_MODEL) {
+
 			double gap = speed * TIME_STEP;
 			for (int i = stripIndex; i < stripIndex + numberOfStrips; i++) {
 				Segment segment = link.getSegment(segmentIndex);
@@ -358,6 +368,7 @@ public class Vehicle {
 			speed = gap / TIME_STEP;
 			return true;
 		} else if (car_following_model == CAR_FOLLOWING_MODEL.GIPPS_MODEL) {
+
 			return speed > 0;
 		} else {
 			// should not come here; dummy return
@@ -533,6 +544,7 @@ public class Vehicle {
 	private boolean moveForwardInSegment() {
 		Segment segment = link.getSegment(segmentIndex);
 		if (controlSpeedInSegment()) {
+
 			distanceInSegment = getNewDistanceInSegment();
 			if (distanceInSegment > segment.getLength() - length) { // distance in segment is the tail of the vehicle so vehicle length is subtracted from segment length
 				distanceInSegment = segment.getLength() - length - (MARGIN - 0.1);   // here MARGIN is the margin, slightly less than the margin in isSegmentEnd function
@@ -542,6 +554,7 @@ public class Vehicle {
 					passedSensor = true;
 				}
 			}
+
 			return true;
 		} else {
 			waitingTime++;
@@ -778,6 +791,7 @@ public class Vehicle {
 		double x_n_1 = leader.distanceInSegment + leader.length;
 		double x_n = follower.distanceInSegment + follower.length;
 		double s_n_1 = leader.length + THRESHOLD_DISTANCE;
+		//System.out.println("id "+follower.getVehicleId()+" "+leader.distanceInSegment+" "+leader.length);
 		return x_n_1 - s_n_1 - x_n;
 	}
 

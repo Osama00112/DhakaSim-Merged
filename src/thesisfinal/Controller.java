@@ -676,6 +676,7 @@ public class Controller {
 	}
 
 	protected static void generateStatistics () {
+		//System.out.println();
 		double[] sensorVehicleCount = new double[linkList.size()];
 		double[] sensorVehicleAvgSpeed = new double[linkList.size()];
 		double[] accidentCount = new double[linkList.size()];

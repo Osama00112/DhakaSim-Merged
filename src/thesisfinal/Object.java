@@ -46,7 +46,13 @@ public class Object extends Vehicle{
 	public Object (int objectType, Link link, Segment segment, int segmentId, double initPos, double speed, boolean reverseDirection) {
 
 
-		super(Controller.vehicleId++,simulationStep,0,0,Color.yellow,link,segmentId);
+		super(Controller.vehicleId,simulationStep,0,0,Color.yellow,link,segmentId,initPos);
+		//speed 0
+		//assigning an id to roadside object too
+		//initpos is basically distanceinsegment
+		// there are other variables in vechicle that are not set in vehicle
+
+
 		//Initialize parameters
 		this.objectType = objectType;
 		this.segment = segment;
