@@ -6,7 +6,7 @@ StripWidth 0.5
 FootpathStripWidth 1
 MaximumSpeed 80.0
 ObjectMode On
-DebugMode On
+DebugMode Off
 TraceMode Off
 RandomSeed 1
 SignalChangeDuration 10
