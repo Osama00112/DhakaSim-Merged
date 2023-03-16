@@ -616,7 +616,7 @@ public class Controller {
 					randomObjectType = 3; //Parked Rickshaw
 					numberOfParkedRickshaws++;
 				}
-				else if (randomObjectProbability>4 && randomObjectProbability < (4+ parkedCNGProbability) && numberOfParkedCNGS < MAX_NUMBER_OF_PARKED_CNGS) {
+				else if (randomObjectProbability>4 && randomObjectProbability < (4+parkedCNGProbability) && numberOfParkedCNGS < MAX_NUMBER_OF_PARKED_CNGS) {
 					randomObjectType = 4; //Parked CNG
 					numberOfParkedCNGS++;
 				}
@@ -647,9 +647,17 @@ public class Controller {
 					continue; //There's no gap for adding parked car
 				}
 			}
+//			if(randomObjectType==2)
+//			{
+//				Object object = new Object(randomObjectType, link, randomSegment, randomSegmentID, randomInitPos, randomObjectSpeed, reverseDirection);
+//				objects.add(object);
+//				numberOfObjects++;
+//			}
+
 			Object object = new Object(randomObjectType, link, randomSegment, randomSegmentID, randomInitPos, randomObjectSpeed, reverseDirection);
 			objects.add(object);
 			numberOfObjects++;
+
 		}
 	}
 
@@ -676,7 +684,7 @@ public class Controller {
 	}
 
 	protected static void generateStatistics () {
-		//System.out.println();
+		//System.out.println("1");
 		double[] sensorVehicleCount = new double[linkList.size()];
 		double[] sensorVehicleAvgSpeed = new double[linkList.size()];
 		double[] accidentCount = new double[linkList.size()];
@@ -732,15 +740,38 @@ public class Controller {
 			vehicle.setAvgTravelSpeed();
 		}
 
+		//new code CSE18
+		double overall_avg_speed = 0;
+		double overall_waiting_time = 0;
+		int total_vehicle_count=0;
+
 		for (int i = 0; i < TYPES_OF_CARS; i++) {
 			if (Statistics.noOfVehicles[i] != 0) {
+
+				overall_avg_speed+=Statistics.avgSpeedOfVehicle[i];
+				overall_waiting_time+=Statistics.waitingTime[i];
+				total_vehicle_count+=Statistics.noOfVehicles[i];
+
 				Statistics.avgSpeedOfVehicle[i] /= Statistics.noOfVehicles[i];
 				Statistics.avgSpeedOfVehicle[i] *= 3.6;
 				percentageOfWaiting[i] = 100.0 * Statistics.waitingTime[i] / Statistics.totalTravelTime[i];
+
 			}
 		}
 
-		printData(Statistics.avgSpeedOfVehicle, "avg_speed_vehicle.csv");
+		overall_avg_speed/=total_vehicle_count;
+		overall_avg_speed*=3.6;
+
+		// printing avg speed
+		System.out.println(overall_avg_speed);
+
+	
+		overall_waiting_time/=total_vehicle_count;
+
+		//printing avg waiting time
+		System.out.println(overall_waiting_time);
+
+		printData(Statistics.avgSpeedOfVehicle, "avg_speed_vehicle_with_roadside_objects.csv");
 		printData(percentageOfWaiting, "waiting_percentage_vehicle.csv");
 
 		totalAccCount(accidentCount);

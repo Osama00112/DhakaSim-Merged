@@ -10,8 +10,6 @@ public interface Constants<standingPedestrianDistributions> {
 
 
 
-	boolean OBJECTS_BLOCKAGE_DISTRIBUTION_IS_UNIFORM = false;
-	boolean OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN = true;
 
 
 

@@ -40,6 +40,8 @@ public class Parameters {
 	static double mediumVehiclePercentage;
 	static double fastVehiclePercentage;
 	static double TTC_THRESHOLD;
+	static boolean OBJECTS_BLOCKAGE_DISTRIBUTION_IS_UNIFORM;
+	static boolean OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN;
 
 	static ArrayList<Integer> simulationStepLineNos;
 
@@ -58,10 +60,17 @@ public class Parameters {
 	static DLC_MODEL lane_changing_model;
 	static CAR_FOLLOWING_MODEL car_following_model;
 
-	Parameters () {
-		initialize();
+	Parameters (boolean isGauss, String time, String speed, double stdPedProb, double carProb, double rickshawProb, double CNGProb) {
+		//initialize();
+
+		// new initialization method instead of previous one
+		initialize3(time, speed, stdPedProb, carProb, rickshawProb, CNGProb);
+
 		initializePart2();
 		indexTraceFile();
+		OBJECTS_BLOCKAGE_DISTRIBUTION_IS_MULTIPLE_GAUSSIAN = isGauss;
+		OBJECTS_BLOCKAGE_DISTRIBUTION_IS_UNIFORM = (!isGauss);
+		
 	}
 
 	private void initialize() {
@@ -185,6 +194,143 @@ public class Parameters {
 						break;
 					case "ParkedCNGProbability":
 						parkedCNGProbability = Double.parseDouble(value);
+						totalTypesOfObjects++;
+						break;
+					default:
+						break;
+				}
+			}
+			pixelPerFootpathStrip = pixelPerMeter * footpathStripWidth;
+			pixelPerStrip = pixelPerMeter * stripWidth;
+			assert (Math.round(slowVehiclePercentage + mediumVehiclePercentage + fastVehiclePercentage) == 100.0);
+		} catch (IOException ex) {
+			Logger.getLogger(DhakaSimPanel.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+	private void initialize3(String time, String speed, double stdPedProb, double carProb, double rickshawProb, double CNGProb) {
+		totalTypesOfObjects = 0;
+		try {
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("parameter.txt")));
+			while (true) {
+				String dataLine = bufferedReader.readLine();
+				if (dataLine == null) {
+					bufferedReader.close();
+					break;
+				}
+				StringTokenizer stringTokenizer = new StringTokenizer(dataLine);
+				String name = stringTokenizer.nextToken();
+				String value = stringTokenizer.nextToken();
+				switch (name) {
+					case "SimulationEndTime":
+						//simulationEndTime = Integer.parseInt(value);
+						simulationEndTime = Integer.parseInt(time);
+						break;
+					case "PixelPerMeter":
+						pixelPerMeter = Integer.parseInt(value);
+						break;
+					case "SimulationSpeed":
+						//simulationSpeed = Integer.parseInt(value);
+						simulationSpeed = Integer.parseInt(speed);
+						break;
+					case "EncounterPerAccident":
+						encounterPerAccident = Double.parseDouble(value);
+						break;
+					case "StripWidth":
+						stripWidth = Double.parseDouble(value);
+						break;
+					case "FootpathStripWidth":
+						footpathStripWidth = Double.parseDouble(value);
+						break;
+					case "MaximumSpeed":
+						maximumSpeed = Double.parseDouble(value);
+						break;
+					case "ObjectMode":
+						objectMode = value.equalsIgnoreCase("On");
+						break;
+					case "DebugMode":
+						DEBUG_MODE = value.equalsIgnoreCase("On");
+						break;
+					case "TraceMode":
+						TRACE_MODE = value.equalsIgnoreCase("On");
+						break;
+					case "RandomSeed":
+						seed = Integer.parseInt(value);
+						break;
+					case "SignalChangeDuration":
+						SIGNAL_CHANGE_DURATION = Integer.parseInt(value);
+						break;
+					case "DefaultTranslateX":
+						DEFAULT_TRANSLATE_X = Double.parseDouble(value);
+						break;
+					case "DefaultTranslateY":
+						DEFAULT_TRANSLATE_Y = Double.parseDouble(value);
+						break;
+					case "CenteredView":
+						CENTERED_VIEW = value.equalsIgnoreCase("on");
+						break;
+					case "DLC_model":
+						int o = Integer.parseInt(value);
+						switch (o) {
+							case 0:
+								lane_changing_model = DLC_MODEL.NAIVE_MODEL;
+								break;
+							case 1:
+								lane_changing_model = DLC_MODEL.GHR_MODEL;
+								break;
+							case 2:
+								lane_changing_model = DLC_MODEL.GIPPS_MODEL;
+								break;
+							default:
+								lane_changing_model = DLC_MODEL.GIPPS_MODEL;
+								break;
+						}
+					case "CF_model":
+						int p = Integer.parseInt(value);
+						switch (p) {
+							case 0:
+								car_following_model = CAR_FOLLOWING_MODEL.NAIVE_MODEL;
+								break;
+							case 1:
+								car_following_model = CAR_FOLLOWING_MODEL.GIPPS_MODEL;
+								break;
+							case 2:
+								car_following_model = CAR_FOLLOWING_MODEL.HYBRID_MODEL;
+								break;
+							default:
+								car_following_model = CAR_FOLLOWING_MODEL.HYBRID_MODEL;
+								break;
+						}
+					case "SlowVehicle":
+						slowVehiclePercentage = Double.parseDouble(value);
+						break;
+					case "MediumVehicle":
+						mediumVehiclePercentage = Double.parseDouble(value);
+						break;
+					case "FastVehicle":
+						fastVehiclePercentage = Double.parseDouble(value);
+						break;
+					case "TTC_Threshold":
+						TTC_THRESHOLD = Double.parseDouble(value);
+						break;
+					case "RoadCrossingPedestrianProbability":
+						roadCrossingPedestrianProbability = Double.parseDouble(value);
+						totalTypesOfObjects++;
+						break;
+					case "StandingPedestrianProbability":
+						standingPedestrianProbability = stdPedProb;
+						totalTypesOfObjects++;
+						break;
+					case "ParkedCarProbability":
+						parkedCarProbability = carProb;
+						totalTypesOfObjects++;
+						break;
+					case "ParkedRickshawProbability":
+						parkedRickshawProbability = rickshawProb;
+						totalTypesOfObjects++;
+						break;
+					case "ParkedCNGProbability":
+						parkedCNGProbability = CNGProb;
 						totalTypesOfObjects++;
 						break;
 					default:
