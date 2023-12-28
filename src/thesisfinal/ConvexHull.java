@@ -135,6 +135,16 @@ public class ConvexHull {
         return area;
     }
 
+    static double getHullDensity(ArrayList<Point2D>pointList){
+        ArrayList<Point2D>hull = findConvexHull(pointList);
+        if(hull.size() < 3){
+            return 9999;     // edge case
+        }
+        else{
+            return (pointList.size()/calculateHullArea(hull));
+        }
+    }
+
     public static void main(String[] args) {
         test();
     }
@@ -160,6 +170,7 @@ public class ConvexHull {
                 System.out.println(p);
             }
             System.out.println(calculateHullArea(hull));
+            System.out.println(getHullDensity(pointList));
         }
     }
 }
