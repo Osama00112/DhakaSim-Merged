@@ -67,8 +67,9 @@ public class KMeansClustering
             }
 
             if (!cluster.points.isEmpty()) {
-                cluster.centroid.x = sumX / cluster.points.size();
-                cluster.centroid.y = sumY / cluster.points.size();
+                double cx = sumX / cluster.points.size();
+                double cy = sumY / cluster.points.size();
+                cluster.centroid = new Point2D(cx, cy);
             }
         }
     }
